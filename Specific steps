@@ -1,0 +1,47 @@
+extracted the apk
+extracted the clean Kingdom Rush apk
+located the LuaJIT game assets
+
+Find the xp code
+yraced xp-related code through the decompiled LuaJIT bytecode
+the relevant area: game_gui.lua, around bytecode lines 9370–9428
+
+Ignored unrelated xp references (i searched for it)
+traced the calculation
+kept followed the bytecode until reaching the actual xp award calculation
+
+then skipped the unrelated calculations that were causing resets
+modified to set xp hero level as level 10
+changed the loop so it would skip certain bytecode ranges resulting in resets
+> therefore the xp loop recognised the earlier level 10 override (more in readme)
+
+Recompile:
+recompiled the modded Lua source back into LuaJIT bytecode
+replaced game assets
+replaced the corresponding .lua LuaJIT bytecode asset inside apk
+
+Changed the package name so it wouldnt conflict
+the original was:
+> com.ironhidegames.android.kingdomrush
+
+changed package ID so the mod could coexist
+i used this package name:
+> com.ironhidegames.android.kingdommodx
+
+rebuilt the apk with the modded assets
+removed ancient meta inf signatures.
+aligned the apk using zipalign
+kept resources.arsc correctly aligned and uncompressed 
+> this step was very important as through adb debugging
+it was found the game refused to launch due to the file being compressed
+signed the apk using a signing keystore 
+
+ran verification
+ran apksigner verify
+confirmed the rebuilt APK's signatures were valid
+> rarely if ever invalid 
+
+Result was this
+hero xp level forced to max on level start
+the normal xp progression was modified to skip certain bitd of the calculation that reset levels
+the mod could be installed separately because the package name differed from the original 
