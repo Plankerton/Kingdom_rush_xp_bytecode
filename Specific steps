@@ -6,14 +6,13 @@ Find the xp code
 yraced xp-related code through the decompiled LuaJIT bytecode
 the relevant area: game_gui.lua, around bytecode lines 9370–9428
 
-Ignored unrelated xp references (i searched for it)
+Ignored unrelated xp references (grep for it)
 traced the calculation
 kept followed the bytecode until reaching the actual xp award calculation
 
-then skipped the unrelated calculations that were causing resets
-modified to set xp hero level as level 10
-changed the loop so it would skip certain bytecode ranges resulting in resets
-> therefore the xp loop recognised the earlier level 10 override (more in readme)
+found xp multipliers for all 3 difficulties
+made a targeted surgical change that multiplied it to 1000
+> therefore the xp progression intended for hero skills did not break
 
 Recompile:
 recompiled the modded Lua source back into LuaJIT bytecode
